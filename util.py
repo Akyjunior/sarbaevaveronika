@@ -10,7 +10,7 @@ def timeit(method):
         result = method(*args, **kw)
         te = time.time()
 
-        print '%s; Время вычисления: %f секунды' % (result, te-ts)
+        print '%s;\t Время вычисления: %f секунды' % (result, te-ts)
         return result
 
     return timed
@@ -47,7 +47,7 @@ def calculate_1a(v1, v2, x, y):
 	#вычисляем коэффициент beta
 	beta = a11 + y*a21 + (y**2-2)*a31 + x*a41 + y*x*a51 + x*(y**2-2)*a61
 
-	return "Коэффициент бета: %f" % beta
+	return "Бета: %f" % beta
 
 @timeit
 def calculate_1b(u1, u2, u3, u1_, u2_, u3_):
