@@ -11,7 +11,7 @@ def timeit(method):
         result = method(*args, **kw)
         te = time.time()
 
-        print '%s;\t Время вычисления: %f секунды' % (result, te-ts)
+        print '%s;\t Время вычисления: %f секунды\n' % (result, te-ts)
         return result
 
     return timed
