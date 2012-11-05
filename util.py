@@ -3,6 +3,7 @@ from numpy import linalg as LA
 import numpy as np
 import time
 
+
 def timeit(method):
 
     def timed(*args, **kw):
@@ -16,26 +17,26 @@ def timeit(method):
     return timed
 
 @timeit
-def calculate_1a(v1, v2, x, y):
-	f  = 1 - v1**2 - v2 ** 2 + v1 * v2
+def calculate_1a(p, v1, v2):
+	f  = (1 - v1**2 - v2 ** 2 + v1 * v2) % p
 	_f = -1 * f
 
 	a1 = np.array([
-		[1,  2*v1 - v2, 2*v2 - v1, _f,    0,    	  0         ], 
-		[v1, 1 + v2, 	v1 - v2,   0,	  _f, 	      0         ],
-		[v2, v1, 	 	1 - v2,    0,     0,    	  _f        ],
-		[f,  0,			0,         1 - f, 2*v1 - v2,  2*v2 - v1 ],
-		[0,  f,         0,         v1,    1 + v2 - f, v1 - v2   ],
-		[0,  0,			f, 		   v2,	  v1,         1 - v2 - f]        
+		[1%p,  (2*v1-v2)%p, (2*v2-v1)%p, _f%p,    0%p,    	   0           ], 
+		[v1%p, (1+v2)%p, 	(v1-v2)%p,   0,	      _f%p, 	   0           ],
+		[v2%p, v1%p, 	 	(1-v2)%p,    0,       0,    	   _f          ],
+		[f%p,  0,			0,           (1-f)%p, (2*v1-v2)%p, (2*v2-v1)%p ],
+		[0,    f%p,         0,           v1%p,    (1+v2-f)%p,  (v1-v2)%p   ],
+		[0,    0,			f%p, 		 v2%p,	  v1%p,        (1-v2-f)%p  ]        
 	]) 
 
 	a2_inv = LA.inv(np.array([
-		[1-f, 2*v1-v2, 2*v2-v1, f,  0,		 0		],
-		[v1,  1-f+v2,  v1-v2,   0,  f, 		 0		],
-		[v2,  v1,      1-f-v2,  0,  0, 		 f 	    ],
-		[_f,  0,       0, 	    1,  2*v1-v2, 2*v2-v1],
-		[0,   _f,      0, 		v1, 1+v2,    v1-v2  ],
-		[0,   0, 	   _f,		v2, v1,      1-v2   ]
+		[(1-f)%p, (2*v1-v2)%p, (2*v2-v1)%p, f%p,  0,		   0		  ],
+		[v1%p,    (1-f+v2)%p,  (v1-v2)%p,   0,    f%p, 		   0	      ],
+		[v2%p,    v1%p,        (1-f-v2)%p,  0,    0, 		   f%p        ],
+		[_f%p,    0,           0, 	        1%p,  (2*v1-v2)%p, (2*v2-v1)%p],
+		[0,       _f%p,        0, 		    v1%p, (1+v2)%p,    (v1-v2)%p  ],
+		[0,       0, 	       _f%p,		v2%p, v1%p,        (1-v2)%p   ]
 	        
 	])) #генерируем a2 и сразу инвертируем 
 
@@ -44,13 +45,10 @@ def calculate_1a(v1, v2, x, y):
 	#берём первый столбец
 	a11, a21, a31, a41, a51, a61 = a3[0][0], a3[1][0], a3[2][0], a3[3][0], a3[4][0], a3[5][0]
 
-	#вычисляем коэффициент beta
-	beta = a11 + y*a21 + (y**2-2)*a31 + x*a41 + y*x*a51 + x*(y**2-2)*a61
-
-	return "Бета: %f" % beta
+	return "Бета: %i + y*%i + (y**2-2)*%i + x*%i + y*x*%i + x*(y**2-2)*%i" % (a11, a21, a31, a41, a51, a61)
 
 @timeit
-def calculate_1b(u1, u2, u3, u1_, u2_, u3_):
+def calculate_1b(p, u1, u2, u3, u1_, u2_, u3_):
 
 	a1 = np.array([
 		[u1+1, 2*u2-u3, 2*u3-u2], 
