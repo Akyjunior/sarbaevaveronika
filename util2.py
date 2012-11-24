@@ -14,6 +14,13 @@ table = {
 	8: {'a5_': 2, 'a5__': 2}
 }
 
+e1 = 560941631
+e2 = 384600144
+e3 = 815930921
+e4 = 504828919
+e5 = -76835150
+e6 = 112
+
 def timeit(method):
 
     def timed(*args, **kw):
@@ -21,7 +28,7 @@ def timeit(method):
         result = method(*args, **kw)
         te = time.time()
 
-        print '%s;\n Время вычисления: %f секунды\n' % (result, te-ts)
+        print 'Время вычисления: %f секунды' % (te-ts,)
         return result
 
     return timed
@@ -46,16 +53,23 @@ def calc_A1(a1, a2, a3, a4, a5):
 	A10 = a5__
 	A11 = a5 * 9
 
-	return 'Кортеж A1: %i, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i' % (A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)
+	return (A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)
 
 def find_A_asterisk(A5, A9):
 	A5 = A5 % 3
 	A9 = A9 % 3
 
-	for (key, value) in table:
-		if {'a5_': A5, 'a5__': A9} == value:
-			return key
+	for index in table:
+		if {'a5_': A5, 'a5__': A9} == table[index]:
+			return index
 
-def calc_A2(A10, A2, A3, A5, A9):
-	pass
-			
+@timeit
+def calc_A2(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, p):
+	A_asterisk = find_A_asterisk(A5, A9)
+
+	A1_ = A10
+	A2_ = A2
+	A3_ = A3
+	A4_ = (e6*A1 + A4*e5 + A6*e4 + e3*A7 + A11*e2 + A_asterisk*e1) % p
+
+	return (A1_, A2_, A3_, A4_)
