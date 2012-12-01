@@ -21,6 +21,14 @@ e4 = 504828919
 e5 = -76835150
 e6 = 112
 
+#для второй части задания
+d1 = 119304647
+d2 = 153391689
+d3 = 97612893
+d4 = 34636833
+d5 = 7110873
+d6 = 3243933
+
 def timeit(method):
 
     def timed(*args, **kw):
@@ -63,6 +71,8 @@ def find_A_asterisk(A5, A9):
 		if {'a5_': A5, 'a5__': A9} == table[index]:
 			return index
 
+
+
 @timeit
 def calc_A2(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, p):
 	A_asterisk = find_A_asterisk(A5, A9)
@@ -73,3 +83,23 @@ def calc_A2(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, p):
 	A4_ = (e6*A1 + A4*e5 + A6*e4 + e3*A7 + A11*e2 + A_asterisk*e1) % p
 
 	return (A1_, A2_, A3_, A4_)
+
+@timeit
+def calc_A3(A10, A2, A3, A4_):
+	return (A10, A2, A3, d1*A4_, d2*A4_, d3*A4_, d4*A4_, d5*A4_, d6*A4_)
+
+def calc_A5(A4_):
+	index = (d1*A4_) % 9
+	return table[index]['a5_']
+
+@timeit
+def	calc_A4(A4_, A2, A3, A8, A1_):
+	A5 = calc_A5(A4_)
+
+	el1 = d6*A4_
+	el2 = 3*A2 - 10*A3 - 16*A4_*d5
+	el3 = A5*2 - 2*d3*A4_ - 15*d4*A4_
+	el4 = A8
+	el5 = 4*A1_ - 3*d2*A4_
+
+	return (el1, el2, el3, el4, el5)
