@@ -9,7 +9,7 @@ v1_default = p - 168595435
 v2_default = p - 25437587438
 
 #для второго задания
-u1_default,  u2_default,  u3_default  = 432678, 1, 1
+u1_default,  u2_default,  u3_default  = 1, 1, 1
 u1__default, u2__default, u3__default = 234324, 11, 146
 
 

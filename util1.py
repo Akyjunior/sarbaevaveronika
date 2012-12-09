@@ -30,7 +30,7 @@ def calculate_1a(p, v1, v2):
 		[0,    0,			f%p, 		 v2%p,	  v1%p,        (1-v2-f)%p  ]        
 	])
 
-	a2_inv = LA.inv(np.array([
+	a2 = np.array([
 		[(1-f)%p, (2*v1-v2)%p, (2*v2-v1)%p, f%p,  0,		   0		  ],
 		[v1%p,    (1-f+v2)%p,  (v1-v2)%p,   0,    f%p, 		   0	      ],
 		[v2%p,    v1%p,        (1-f-v2)%p,  0,    0, 		   f%p        ],
@@ -38,8 +38,10 @@ def calculate_1a(p, v1, v2):
 		[0,       _f%p,        0, 		    v1%p, (1+v2)%p,    (v1-v2)%p  ],
 		[0,       0, 	       _f%p,		v2%p, v1%p,        (1-v2)%p   ]
 	        
-	])) #генерируем a2 и сразу инвертируем
+	])
 
+	a2_det = LA.det(a2) #определитель a2
+	a2_inv = np.dot(a2_det, a2) #обратная a2
 	a3 = np.dot(a1, a2_inv) #перемножаем матрицы
 
 	#берём первый столбец
@@ -56,11 +58,14 @@ def calculate_1b(p, u1, u2, u3, u1_, u2_, u3_):
        	[u3%p,     u2%p,        (u1+1-u3)%p]
 	])
 
-	a2_inv = LA.inv(np.array([
+	a2 = np.array([
 		[u1_%p, (2*u2_-u3_)%p, (2*u3_-u2_)%p],
 		[u2_%p, (u1_+u3_)%p,   (u2_-u3_)%p  ],
 		[u3_%p, u2_%p,         (u1_-u3_)%p  ]	        
-	])) #генерируем a2 и сразу инвертируем
+	])
+
+	a2_det = LA.det(a2) #определитель a2
+	a2_inv = np.dot(a2_det, a2) #обратная a2
 
 	a3 = np.dot(a1, a2_inv) #перемножаем матрицы
 
