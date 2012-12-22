@@ -7,7 +7,7 @@ m = m_orig = 30
 A=[1,0]
 B=[0,1]
 
-def r(n,m):
+def r(n, m):
 	return n % m
 
 def q(n, m):
