@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+
 n = n_orig = 97
 m = m_orig = 30
 
@@ -18,7 +20,7 @@ def b(i, q, B):
 	return B[i-1] - q*B[i]
 
 i = 1
-while n > 1:
+while True:
 	_r = r(n, m)
 	_q = q(n, m)
 	_a = a(i, _q, A) 
@@ -30,13 +32,12 @@ while n > 1:
 	n = m
 	m = _r
 	i = i + 1
+	if n == 1 or n < 1: break #расчёт закончен - прерываем цикл
 
 result = B[i - 1]
+if result < 0: result = result + n_orig 
 
-if result < 0:
-	result = result + n_orig
-
-print "Ответ: 1/detA = %s " % result
+print "Ответ: 1/detA = %s" % result
 
 #проверяем результат
-print "Проверяем результат: (%s*%s)mod(%s) => %s " % (m_orig, result, n_orig, (m_orig*result) % n_orig)
+print "Проверяем результат: (%s*%s)mod(%s) => %s" % (m_orig, result, n_orig, (m_orig*result) % n_orig)
